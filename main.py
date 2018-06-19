@@ -1,10 +1,6 @@
 #!/usr/bin/python 3
-
-import os, sys	
-import pygame
-
-import game
+import game as g
 
 if __name__ == "__main__":
-	g = game.Game()
-	g.run()
+	game = g.Game()
+	game.run()
