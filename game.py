@@ -79,6 +79,7 @@ class Game(object):
 
         for enemy in self.enemies:
             enemy.move()
+            enemy.shoot(self.bullets)
 
         self.player_group.update()
         self.enemies_group.update()

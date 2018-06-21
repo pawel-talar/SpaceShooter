@@ -1,5 +1,6 @@
 import pygame
 import settings as stng
+import bullet as blt
 import random
 
 class Enemy(pygame.sprite.Sprite):
@@ -22,6 +23,11 @@ class Enemy(pygame.sprite.Sprite):
     def upgrade(self):
         self.bullet_power += 1
         self.life += 1
+
+    def shoot(self, tab):
+        x = random.randint(0, 100)
+        if x > 25 and x < 29:
+            tab.append(blt.Bullet((self.rect.x + 32, self.rect.y), 1, self.bullet_power))
 
     def crash(self):
         self.is_dead = True
