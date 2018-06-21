@@ -26,7 +26,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def crash(self):
         self.is_dead = True
-        self.images = loadAnims("player_crash", 30)
+        self.images = loadAnims("player_crash", 1)
         self.index = 0
 
     def update(self):

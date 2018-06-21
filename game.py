@@ -16,7 +16,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(self.screen_res)
         self.time = pygame.time.get_ticks()
-        self.refresh_rate = 150
+        self.refresh_rate = 60
         pygame.display.set_caption('Space Shooter')
         self.is_end = False
         self.is_running = True
@@ -38,9 +38,9 @@ class Game(object):
             if (self.keys[pygame.K_d]):
                 self.player.crash()
             if (self.keys[pygame.K_LEFT] and self.is_running):
-                self.player.move_vec = -1
+                self.player.move_vec = -2
             elif (self.keys[pygame.K_RIGHT] and self.is_running):
-                self.player.move_vec = 1
+                self.player.move_vec = 2
             else:
                 self.player.move_vec = 0
 
@@ -51,9 +51,9 @@ class Game(object):
         self.is_running = False
 
     def generate_bonuses(self):
-        x = random.randint(0, 10000)
+        x = random.randint(0, 500)
         if x < 5:
-            print("SUKCES!")
+            #print("SUKCES!")
             self.bonuses.append(bns.Bonus())
 
     def update_battlefield(self):
