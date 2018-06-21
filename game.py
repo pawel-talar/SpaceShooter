@@ -3,6 +3,7 @@
 import os, sys
 import pygame
 import settings as stng
+import player as plr
 
 
 class Game(object):
@@ -16,6 +17,8 @@ class Game(object):
         self.is_end = False
         self.is_running = True
         self.vitality_of_enemies = 1
+        self.player = plr.Player()
+        self.player_group = pygame.sprite.Group(self.player)
 
     def input_event(self):
         for event in pygame.event.get():
@@ -39,6 +42,10 @@ class Game(object):
             if (not self.is_running):
                 self.input_event()
             while (self.is_running):
+                self.screen.fill((0, 0, 0))
                 self.input_event()
-                print(self.is_running)
+                self.player_group.update()
+                self.player_group.draw(self.screen)
+                pygame.display.flip()
+
 
