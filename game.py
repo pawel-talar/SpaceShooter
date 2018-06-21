@@ -30,6 +30,10 @@ class Game(object):
                     self.pause()
                 else:
                     self.is_running = True
+            if (self.keys[pygame.K_LEFT] and self.is_running):
+                self.player.move(-10)
+            elif (self.keys[pygame.K_RIGHT] and self.is_running):
+                self.player.move(10)
 
     def run(self):
         self.loop()
