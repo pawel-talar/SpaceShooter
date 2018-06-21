@@ -13,7 +13,7 @@ class Enemy(pygame.sprite.Sprite):
         self.index = 0
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 64, 64)
         self.is_dead = False
-        self.images = loadAnims("enemy0", 120)
+        #self.images = stng.loadAnims("", 120)
         self.image = self.images[self.index]
 
     def move(self):
@@ -26,7 +26,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def crash(self):
         self.is_dead = True
-        self.images = loadAnims("player_crash", 1)
+        #self.images = stng.loadAnims("", 1)
         self.index = 0
 
     def update(self):

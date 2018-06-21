@@ -7,7 +7,7 @@ class Bonus(pygame.sprite.Sprite):
         self.pos = [random.randint(0, stng.screen_resolution[0]-64), 20]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 64, 64)
         self.is_done = False
-        self.image = pygame.image.load("img/bonus.png")
+        self.image = stng.bonus
 
     def move(self):
         self.rect.y += 1
