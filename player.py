@@ -1,6 +1,7 @@
 import pygame
 import os
 import settings as stng
+import bullet as blt
 
 def loadAnims(phrase, repeat):
     imgs = os.listdir("img")
@@ -36,6 +37,9 @@ class Player(pygame.sprite.Sprite):
     def upgrade(self):
         self.bullet_power += 1
         self.life += 1
+
+    def shoot(self, tab):
+        tab.append(blt.Bullet((self.rect.x+32, self.rect.y), 0, self.bullet_power))
 
     def crash(self):
         self.is_dead = True

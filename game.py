@@ -24,6 +24,7 @@ class Game(object):
         self.player = plr.Player()
         self.player_group = pygame.sprite.Group(self.player)
         self.bonuses = []
+        self.bullets = []
 
     def input_event(self):
         for event in pygame.event.get():
@@ -43,6 +44,8 @@ class Game(object):
                 self.player.move_vec = 2
             else:
                 self.player.move_vec = 0
+            if(self.keys[pygame.K_SPACE]):
+                self.player.shoot(self.bullets)
 
     def run(self):
         self.loop()
@@ -60,6 +63,9 @@ class Game(object):
         for bonus in self.bonuses:
             bonus.move()
             bonus.draw(self.screen)
+        for bullet in self.bullets:
+            bullet.move()
+            bullet.draw(self.screen)
 
     def loop(self):
         while (not self.is_end):
