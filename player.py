@@ -2,24 +2,36 @@ import pygame
 import os
 import settings as stng
 
+def loadAnims(phrase, repeat):
+    imgs = os.listdir("img")
+    imgs.sort()
+    images = []
+    for img in imgs:
+        # print ('img/' + img)
+        if img.startswith(phrase):
+            images.append(pygame.image.load('img/' + img))
+            current_size = len(images)
+            for i in range(repeat):
+                images.append(0)
+                images[current_size + i] = images[current_size - 1]
+    return images
+
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
         self.pos = [310, 400]
-        self.images = []
         self.bullet_power = 1
         self.life = 3
-        self.images.append(pygame.image.load("img/player01.png"))
-        self.images.append(pygame.image.load("img/player02.png"))
-        self.images.append(pygame.image.load("img/player03.png"))
-        self.images.append(pygame.image.load("img/player04.png"))
+        self.move_vec = 0
         self.index = 0
-        self.image = self.images[self.index]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 64, 64)
         self.is_dead = False
+        self.images = loadAnims("player0", 120)
+        self.image = self.images[self.index]
 
-    def move(self, par):
-        self.rect.x += par
+    def move(self):
+        if (stng.screen_resolution[0] - 64 >= self.rect.x + self.move_vec and self.rect.x + self.move_vec >= 0):
+            self.rect.x += self.move_vec
 
     def upgrade(self):
         self.bullet_power += 1
@@ -27,18 +39,7 @@ class Player(pygame.sprite.Sprite):
 
     def crash(self):
         self.is_dead = True
-        self.images = []
-        imgs = os.listdir("img")
-        imgs.sort()
-        print (imgs)
-        for img in imgs:
-            print ('img/' + img)
-            if img.startswith("player_crash"):
-                self.images.append(pygame.image.load('img/' + img))
-                current_size = len(self.images)
-                for i in range(10):
-                    self.images.append(0)
-                    self.images[current_size+i] = self.images[current_size-1]
+        self.images = loadAnims("player_crash", 30)
         self.index = 0
 
     def update(self):
