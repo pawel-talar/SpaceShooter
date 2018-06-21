@@ -10,10 +10,10 @@ class Bullet(pygame.sprite.Sprite):
         self.power = power
         if p == 0:
             self.image = stng.player_bullet
-            self.speed_vec = -2
+            self.speed_vec = -4
         elif p == 1:
             self.image = stng.enemy_bullet
-            self.speed_vec = 2
+            self.speed_vec = 4
 
     def move(self):
         self.rect.y += self.speed_vec

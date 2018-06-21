@@ -1,3 +1,4 @@
+import os, sys
 import pygame
 
 screen_resolution = (640, 480)

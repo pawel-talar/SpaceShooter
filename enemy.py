@@ -9,16 +9,15 @@ class Enemy(pygame.sprite.Sprite):
         self.pos = [x, 20]
         self.bullet_power = 1
         self.life = 3
-        self.move_vec = 0
+        self.move_vec = 1
         self.index = 0
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 64, 64)
         self.is_dead = False
-        #self.images = stng.loadAnims("", 120)
+        self.images = stng.loadAnims("enemy0", 30)
         self.image = self.images[self.index]
 
     def move(self):
-        if (stng.screen_resolution[0] - 64 >= self.rect.x + self.move_vec and self.rect.x + self.move_vec >= 0):
-            self.rect.x += self.move_vec
+        self.rect.y += self.move_vec
 
     def upgrade(self):
         self.bullet_power += 1

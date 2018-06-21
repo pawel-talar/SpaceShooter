@@ -5,7 +5,7 @@ import pygame
 import settings as stng
 import player as plr
 import bonus as bns
-import enemy
+import enemy as enm
 import random
 
 
@@ -16,15 +16,17 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(self.screen_res)
         self.time = pygame.time.get_ticks()
-        self.refresh_rate = 60
+        self.refresh_rate = 40
         pygame.display.set_caption('Space Shooter')
         self.is_end = False
         self.is_running = True
         self.vitality_of_enemies = 1
         self.player = plr.Player()
         self.player_group = pygame.sprite.Group(self.player)
+        self.enemies_group = pygame.sprite.Group()
         self.bonuses = []
         self.bullets = []
+        self.enemies = []
 
     def input_event(self):
         for event in pygame.event.get():
@@ -54,18 +56,34 @@ class Game(object):
         self.is_running = False
 
     def generate_bonuses(self):
-        x = random.randint(0, 500)
+        x = random.randint(0, 100000)
         if x < 5:
             #print("SUKCES!")
             self.bonuses.append(bns.Bonus())
+
+    def generate_enemies(self):
+        x = random.randint(0, 1000)
+        if x < 123 and x > 100:
+            #print("SUKCES!")
+            self.enemies.append(enm.Enemy())
+            self.enemies_group.add(self.enemies[-1])
 
     def update_battlefield(self):
         for bonus in self.bonuses:
             bonus.move()
             bonus.draw(self.screen)
+
         for bullet in self.bullets:
             bullet.move()
             bullet.draw(self.screen)
+
+        for enemy in self.enemies:
+            enemy.move()
+
+        self.player_group.update()
+        self.enemies_group.update()
+        self.player_group.draw(self.screen)
+        self.enemies_group.draw(self.screen)
 
     def loop(self):
         while (not self.is_end):
@@ -74,9 +92,8 @@ class Game(object):
             while (self.is_running):
                 self.screen.fill((0, 0, 0))
                 self.generate_bonuses()
+                self.generate_enemies()
                 self.update_battlefield()
-                self.player_group.update()
-                self.player_group.draw(self.screen)
                 self.player.move()
                 pygame.display.flip()
                 self.input_event()
