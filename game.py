@@ -30,6 +30,8 @@ class Game(object):
                     self.pause()
                 else:
                     self.is_running = True
+            if (self.keys[pygame.K_d]):
+                self.player.crash()
             if (self.keys[pygame.K_LEFT] and self.is_running):
                 self.player.move(-10)
             elif (self.keys[pygame.K_RIGHT] and self.is_running):
@@ -47,9 +49,9 @@ class Game(object):
                 self.input_event()
             while (self.is_running):
                 self.screen.fill((0, 0, 0))
-                self.input_event()
                 self.player_group.update()
                 self.player_group.draw(self.screen)
                 pygame.display.flip()
+                self.input_event()
 
 
