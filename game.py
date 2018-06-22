@@ -12,6 +12,7 @@ import random
 class Game(object):
     def __init__(self):
         pygame.init()
+        self.font = pygame.font.SysFont("monospace", 15)
         self.screen_res = stng.screen_resolution
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(self.screen_res)
@@ -27,6 +28,7 @@ class Game(object):
         self.bonuses_group = pygame.sprite.Group()
         self.enemy_bullets_group = pygame.sprite.Group()
         self.player_bullets_group = pygame.sprite.Group()
+        self.score = 0
         self.bonuses = []
         self.bullets = []
         self.enemies = []
@@ -72,6 +74,15 @@ class Game(object):
             self.enemies.append(enm.Enemy())
             self.enemies_group.add(self.enemies[-1])
 
+    def game_over(self):
+        self.is_end = True
+
+    def update_scoreboard(self):
+        label1 = self.font.render("Score: " + str(self.score), 20, (255, 255, 0))
+        label2 = self.font.render("HP: " + str(self.player.life), 20, (255, 0, 0))
+        self.screen.blit(label1, (0, 0))
+        self.screen.blit(label2, (0, 20))
+
     def update_battlefield(self):
         for bonus in self.bonuses:
             bonus.move()
@@ -95,12 +106,24 @@ class Game(object):
         self.player_bullets_group.draw(self.screen)
 
     def check_collisions(self):
-        pygame.sprite.groupcollide(self.player_bullets_group, self.enemies_group, True, True)
-        pygame.sprite.groupcollide(self.player_bullets_group, self.bonuses_group, True, True)
         if not self.player.is_dead:
-            for collision in pygame.sprite.groupcollide(self.enemy_bullets_group, self.player_group, True, False):
-                self.player.crash()
+            b2p = pygame.sprite.groupcollide(self.enemy_bullets_group, self.player_group, True, False)
+            print (b2p)
+            for collision in b2p:
+                self.player.life -= 1
+                if self.player.life <= 0:
+                    self.player.crash()
+                    self.game_over()
+            b2b = pygame.sprite.groupcollide(self.player_bullets_group, self.bonuses_group, True, True)
+            for collision in b2b:
+                self.player.life += 1
 
+        for e in self.enemies_group:
+            x = pygame.sprite.spritecollideany(e, self.player_bullets_group)
+            if x != None:
+                self.score += 10
+                e.crash()
+                x.kill()
 
     def loop(self):
         while (not self.is_end):
@@ -112,10 +135,12 @@ class Game(object):
                 self.generate_enemies()
                 self.update_battlefield()
                 self.player.move()
+                self.update_scoreboard()
                 pygame.display.flip()
                 self.input_event()
                 self.check_collisions()
                 self.clock.tick(self.refresh_rate)
+
 
 
 

@@ -26,14 +26,14 @@ class Enemy(pygame.sprite.Sprite):
 
     def shoot(self, tab):
         x = random.randint(0, 100)
-        if x > 25 and x < 29:
-            tab.append(blt.Bullet((self.rect.x + 32, self.rect.y), 1, self.bullet_power))
+        if x > 25 and x < 29 and not self.is_dead:
+            tab.append(blt.Bullet((self.rect.x + 32, self.rect.y + 62), 1, self.bullet_power))
             return True
         return False
 
     def crash(self):
         self.is_dead = True
-        #self.images = stng.loadAnims("", 1)
+        #self.images = stng.loadAnims("enemy_crash0", 1)
         self.index = 0
 
     def update(self):
@@ -44,4 +44,6 @@ class Enemy(pygame.sprite.Sprite):
         else:
             if self.index < len(self.images)-1:
                 self.index += 1
+            else:
+                self.kill()
         self.image = self.images[self.index]
