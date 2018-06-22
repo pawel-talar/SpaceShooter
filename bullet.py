@@ -5,6 +5,7 @@ class Bullet(pygame.sprite.Sprite):
     # p = 1 - bullet of enemy, 0 - bullet of player
     def __init__(self, pos, p, power):
         super(Bullet, self).__init__()
+        stng.shoot_sound.play()
         self.pos = pos
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 2, 5)
         self.is_collide = False
@@ -18,6 +19,8 @@ class Bullet(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.y += self.speed_vec
+        if self.rect.y < 0 or self.rect.y > stng.screen_resolution[1]:
+            self.kill()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

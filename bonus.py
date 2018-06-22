@@ -4,6 +4,7 @@ import random
 
 class Bonus(pygame.sprite.Sprite):
     def __init__(self):
+        super(Bonus, self).__init__()
         self.pos = [random.randint(0, stng.screen_resolution[0]-64), 20]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 64, 64)
         self.is_done = False

@@ -6,7 +6,7 @@ import random
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super(Enemy, self).__init__()
-        x = random.randint(0, stng.screen_resolution[0])
+        x = random.randint(0, stng.screen_resolution[1])
         self.pos = [x, 20]
         self.bullet_power = 1
         self.life = 3
@@ -19,10 +19,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self):
         self.rect.y += self.move_vec
-
-    def upgrade(self):
-        self.bullet_power += 1
-        self.life += 1
+        if self.rect.y > stng.screen_resolution[1]:
+            self.kill()
 
     def shoot(self, tab):
         x = random.randint(0, 100)
@@ -31,10 +29,13 @@ class Enemy(pygame.sprite.Sprite):
             return True
         return False
 
-    def crash(self):
-        self.is_dead = True
-        #self.images = stng.loadAnims("enemy_crash0", 1)
-        self.index = 0
+    def crash(self, score):
+        if not self.is_dead:
+            self.is_dead = True
+            self.images = stng.loadAnims("enemy_crash0", 1)
+            self.index = 0
+            return score + 10
+        return score
 
     def update(self):
         if self.is_dead == False:

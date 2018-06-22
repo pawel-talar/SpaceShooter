@@ -25,7 +25,8 @@ class Player(pygame.sprite.Sprite):
         self.life += 1
 
     def shoot(self, tab):
-        tab.append(blt.Bullet((self.rect.x+32, self.rect.y), 0, self.bullet_power))
+        if not self.is_dead:
+            tab.append(blt.Bullet((self.rect.x+32, self.rect.y), 0, self.bullet_power))
 
     def crash(self):
         self.is_dead = True
