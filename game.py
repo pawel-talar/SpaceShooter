@@ -96,8 +96,10 @@ class Game(object):
 
     def check_collisions(self):
         pygame.sprite.groupcollide(self.player_bullets_group, self.enemies_group, True, True)
-        pygame.sprite.groupcollide(self.enemy_bullets_group, self.player_group, True, True)
         pygame.sprite.groupcollide(self.player_bullets_group, self.bonuses_group, True, True)
+        if not self.player.is_dead:
+            for collision in pygame.sprite.groupcollide(self.enemy_bullets_group, self.player_group, True, False):
+                self.player.crash()
 
 
     def loop(self):
