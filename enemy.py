@@ -28,6 +28,8 @@ class Enemy(pygame.sprite.Sprite):
         x = random.randint(0, 100)
         if x > 25 and x < 29:
             tab.append(blt.Bullet((self.rect.x + 32, self.rect.y), 1, self.bullet_power))
+            return True
+        return False
 
     def crash(self):
         self.is_dead = True

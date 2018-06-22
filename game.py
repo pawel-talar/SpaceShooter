@@ -24,6 +24,9 @@ class Game(object):
         self.player = plr.Player()
         self.player_group = pygame.sprite.Group(self.player)
         self.enemies_group = pygame.sprite.Group()
+        self.bonuses_group = pygame.sprite.Group()
+        self.enemy_bullets_group = pygame.sprite.Group()
+        self.player_bullets_group = pygame.sprite.Group()
         self.bonuses = []
         self.bullets = []
         self.enemies = []
@@ -48,6 +51,7 @@ class Game(object):
                 self.player.move_vec = 0
             if(self.keys[pygame.K_SPACE]):
                 self.player.shoot(self.bullets)
+                self.player_bullets_group.add(self.bullets[-1])
 
     def run(self):
         self.loop()
@@ -71,20 +75,30 @@ class Game(object):
     def update_battlefield(self):
         for bonus in self.bonuses:
             bonus.move()
-            bonus.draw(self.screen)
 
         for bullet in self.bullets:
             bullet.move()
-            bullet.draw(self.screen)
 
         for enemy in self.enemies:
             enemy.move()
-            enemy.shoot(self.bullets)
+            x = enemy.shoot(self.bullets)
+            if x:
+                self.enemy_bullets_group.add(self.bullets[-1])
 
         self.player_group.update()
         self.enemies_group.update()
+        self.player_bullets_group.update()
+        self.enemy_bullets_group.update()
         self.player_group.draw(self.screen)
         self.enemies_group.draw(self.screen)
+        self.enemy_bullets_group.draw(self.screen)
+        self.player_bullets_group.draw(self.screen)
+
+    def check_collisions(self):
+        pygame.sprite.groupcollide(self.player_bullets_group, self.enemies_group, True, True)
+        pygame.sprite.groupcollide(self.enemy_bullets_group, self.player_group, True, True)
+        pygame.sprite.groupcollide(self.player_bullets_group, self.bonuses_group, True, True)
+
 
     def loop(self):
         while (not self.is_end):
@@ -98,6 +112,7 @@ class Game(object):
                 self.player.move()
                 pygame.display.flip()
                 self.input_event()
+                self.check_collisions()
                 self.clock.tick(self.refresh_rate)
 
 

@@ -4,6 +4,7 @@ import settings as stng
 class Bullet(pygame.sprite.Sprite):
     # p = 1 - bullet of enemy, 0 - bullet of player
     def __init__(self, pos, p, power):
+        super(Bullet, self).__init__()
         self.pos = pos
         self.rect = pygame.Rect(self.pos[0], self.pos[1], 2, 5)
         self.is_collide = False
